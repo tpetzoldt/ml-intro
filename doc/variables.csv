@@ -1,0 +1,16 @@
+No, Variable, Abbreviation
+1, date, DATE
+2, phytoplankton in epilimnion, XBE
+3, lake depth, DEPTH
+4, mixing depth, ZMIX
+5, secchi depth, ST
+6, temperature in epilimnion, TE
+7, temperatur in hypolimnion, TH
+8, conc. of PO4-P in Epilimnion, PO4_PE
+9,  conc. of PO4-P in hypolimnion, PO4_PH
+10, conc of NO3-N in epilimnion, NO3_E
+11, conc of NO3-N in hypolimnion, NO3_H
+12, conc of SiO2 in epilimnion, SIE
+13, conc of SiO2 in hypolimnion, SIH
+14, saturation of O2 in epilimnion, O2_SATE
+15, saturation of O2 in hypolimnion, O2_SATH
