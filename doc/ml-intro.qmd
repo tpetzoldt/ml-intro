@@ -32,7 +32,7 @@ library("lubridate")
 
 The following examples aim to give an idea about analysing water
 quality data sets with machine learning (ML) techniques. The examples
-are selected to start as easy as possible, but can of course not give
+are selected to start as easy as possible and can of course not give
 a comprehensive overview over contemporary modelling techniques.
 
 Problems solved with ML techniques can be sub-divided in different cateogries,
@@ -83,9 +83,8 @@ grViz("digraph neuron {
 ![Neuron with 3 inputs (x1, x2, x3), weights (w1, w2, w3) and one output (y).](img/diagrammer-neuron.png){#fig-neuron width=40%}
 
 A neuron has several inputs $x_i$ with individual weighting factors
-$w_i$. The weighted inputs are then combined with the help of a
-summation function and passed on to the output $y$ via a transfer
-function.
+$w_i$. The weighted inputs are then combined with a weighted sum
+and then passed on to the output $y$ via a transfer function.
 
 The transfer function can have different structure, where a sigmoidal
 function is one of the most common:
@@ -94,7 +93,7 @@ $$
 f(\mathbf{x}, \mathbf{w}) = \frac{1}{1 + e^{-\sum_{i=1}^n x_i \cdot w_i}}
 $$
 
-The sigmoidal function can look very different, depending on weights
+The sigmoidal function can look very different, depending on which weights
 and x-values are used (@fig-sigmoid). The picture can become even more
 flexible, if several sigmoidal functions are added. This way, a neural
 network consisting of a sufficient number of neurons can be fit to any
@@ -170,7 +169,7 @@ grViz("digraph ANN {
 }")
 ```
 --->
-![ully connected feed-forward network with three layers, for example and 3 neurons in the input  layer, 5 in the hidden layer and 2 in the output.  Deep neural networks have more than one hidden layer.](img/diagrammer-ann.png){#fig-forward-network width=60%}
+![Fully connected feed-forward network with three layers, for example and 3 neurons in the input  layer, 5 in the hidden layer and 2 in the output.  Deep neural networks have more than one hidden layer.](img/diagrammer-ann.png){#fig-forward-network width=60%}
 
 
 ### A toy example
@@ -184,7 +183,7 @@ of overfitting at the beginning.
 
 ```{r}
 #| label: fig-toydata
-#| fig-cap: "Toy data set and fitted neural networks with 1 and 5 hidden neurons."
+#| fig-cap: "Toy data set."
 # Generate some test data
 set.seed(123)
 x <- seq(0, 100, 1)
@@ -264,7 +263,9 @@ x <- dauta[, c("species_i", "temperature", "light")]
 
 ### Fit of a neural network
 
-Now we can fit a neural network:
+Now we can fit a neural network. In the code below, we do this several times in 
+a `for`-loop and select the best fitting network. This is a quite basic method, 
+but it can lead to overfitting.
 
 ```{r}
 set.seed(1423)
@@ -317,7 +318,7 @@ lines(light, growthrate, col = "red", lwd = 2)
 We can also plot the outcome for all species and temperatures together (@fig-dauta-ann-multi). 
 Here the function `expand.grid` creates a data frame with all combinations of the 
 explanation variables `species_i`, `light` and `temperature`. This data frame can 
-then be used in `predict` where the variable namesof the new data mus exactly match 
+then be used in `predict` where the variable names of the new data must exactly match 
 the variable names in the original data set used for fitting the model.
 
 ```{r}
@@ -353,7 +354,7 @@ ggplot(data=dauta, mapping=aes(x=light, y=growthrate)) +
    show additional wiggles, a clear sign of overfitting.
 2. Now try to fit the whole data set with all four species. Find good
    settings by trial and error that produce both a high coefficient of
-   detemination and a plausible figures.
+   determination and plausible figures.
 
 ## Case Study 2: Relationship between environmental variables and phytoplankton in a lake
 
@@ -369,19 +370,11 @@ phytoplankton and environmental data were measured at the same time.
 
 ### The data set
 
-For the simulation experiments measured data of the Saidenbach dam
+For the simulation experiments, measured data of the Saidenbach dam
 were used (cf. @Horn2006). As the data were not always exactly
 equidistant, an interpolation was carried out with cubic splines to an
 interval of 14d, with subsequent manual post-correction to avoid
 wiggles.
-
-The variables shown in the table, except Date and XBM were used as
-inputs for the neural network, while phytoplankton biomass (XBM) in
-the epilimnion was used as output. The DATE variable will be used to
-select rows. The phytoplankton biomass XBM is then square root
-transformed and then normalized to the interval \[0, 1\]. Square root
-transformation aims to downweight large peaks while normalizing is
-necessary because the standard learning algorithm requires this.
 
 The variables shown in the table, except Date and XBM were used as
 inputs for a neural network, while phytoplankton biomass (XBM) in the
@@ -446,7 +439,7 @@ x <- dat[select]
 
 Now we can fit a first neural network. Because some networks did not
 converge with the default settings, some of the learning parameters
-(decay and maxit) were adapted by trial and error.
+(`decay` and `maxit`) were adapted by trial and error.
 
 Note also the `set.seed()` function that starts the random number with a fixed
 value (the "seed") to ensure reproducibility of the examples in this document.
@@ -531,7 +524,7 @@ independent test of the model.
 In the last years, a large number of machine learning techniques and of related 
 **R** packages were developed, each with its own advantages and philosophy.
 Mastering all these and selecting the best one can be a big challenge.
-On the other hand, so-called "frameworks" or meta packages" appeared, trying to
+On the other hand, so-called "frameworks" or "meta packages" appeared, trying to
 integrate existing technologies in a unified application programming interface (API).
 These packages differ again with respect to the included features, syntax and 
 philosophy, so it can again be difficult where to start.
@@ -562,8 +555,8 @@ that we will need later.
 Then we create a task, that contains our data set and names the target variable. 
 To exclude `DATE` and `XBE` from the list of explanation variables, we can use
 `select`. This is one of the above mentioned object oriented **R6** functions.
-In effect, the `task`-object modifies itself without the need ot an assignment 
-with `<-`or `=`.
+In effect, the `task`-object modifies itself without the need of an assignment 
+with `<-` or `=`.
 
 ```{r}
 library("mlr3")
@@ -594,7 +587,7 @@ mlr_learners
 ```
 
 The list can be even bigger, depending on which packages were actually loaded. The learner 
-`regr.nnet` is the one from the package **nnet* that we have used for the experiments above.
+`regr.nnet` is the one from the package **nnet** that we have used for the experiments above.
 For our first experiment with **mlr3**, let's use random forest algorithm (@Breiman2001), 
 a very powerful and robust ML algorithm, with a fast implementation in the 
 package **ranger** [@Wright2017]. 
@@ -607,7 +600,7 @@ install.packages("ranger")
 
 Now we set up a learner. Here it is possible to provide additional options,
 like in the `nnet` examples above. The line is shown below and can be uncommented
-if you want. The random forest learner is more robust and works with the defauolt 
+if you want. The random forest learner is more robust and works with the default 
 settings.
 
 ```{r}
@@ -621,7 +614,7 @@ Now comes the essential step to train the learner. In contrast to the `nnet`
 example above we use only the training data subset and compare it later to the
 test data set, not used for training.
 You may wonder that the function returns very quickly. It does indeed
-hihghly CPU intensive computations, but the data set is small,
+highly CPU intensive computations, but the data set is small,
 our computers are fast and the "ranger" package is very efficient. We set a 
 random seed to be able to reproduce the outcome at a later time.
  
@@ -636,8 +629,8 @@ Now we can evaluate the results numerically:
 print(learner$model)
 ```
 
-The values of RMSE and  R squared can be misleading, because it is the value for the training data. 
-To get it for the test data, w first do a prediction for the test data subset and then compute the scores.
+The values of RMSE and  R squared can be misleading, because they compare only with the training data. 
+To get them for the test data, we first do a prediction for the test data subset and then compute the scores.
 Function `msr` defines a measure. The full dictionary of measures is available via:
 
 ```{r, eval=FALSE}
@@ -694,7 +687,7 @@ as.data.table(filter)
 ```
 
 While variable importance with `flt("importance", ...)` is available for random 
-forest models, it cannot be applied for all learners. A list of available
+forest models, it cannot be applied to all learners. A list of available
 filters is found at https://mlr3filters.mlr-org.com/
 
 We see that oxygen saturation (`O2_SATE`) has highest predictive power, 
