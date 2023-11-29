@@ -2,18 +2,19 @@
 title: "Basic Machine Learning with R: Some Limnological Toy Examples"
 author: "Thomas Petzoldt"
 format:
-  pdf:
-    toc: true
-    number-sections: true
-    shift-heading-level-by: -1
   html:
     toc: true
     number-sections: true
     page-layout: article
+  pdf:
+    toc: true
+    number-sections: true
+    shift-heading-level-by: -1
 editor: source
 bibliography: ann.bib
 csl: apa
 always_allow_html: true
+self-contained: true
 ---
 
 ```{r echo=FALSE, include=FALSE}
@@ -86,8 +87,8 @@ A neuron has several inputs $x_i$ with individual weighting factors
 $w_i$. The weighted inputs are then combined with a weighted sum
 and then passed on to the output $y$ via a transfer function.
 
-The transfer function can have different structure, where a sigmoidal
-function is one of the most common:
+The transfer function can have different structure, where in the classical case,
+a sigmoidal function was one of the most common:
 
 $$
 f(\mathbf{x}, \mathbf{w}) = \frac{1}{1 + e^{-\sum_{i=1}^n x_i \cdot w_i}}
@@ -168,6 +169,17 @@ grViz("digraph ANN {
   
 }")
 ```
+
+**Note**: In contrast to the classical sigmoidal function, modern deep neural 
+network frameworks like [Keras](https://keras.io/) prefer other transfer functions, 
+e.g. a linear ramp function (ReLU, rectified linear unit). 
+The ReLU is linear and surprisingly much simpler than the sigmoidal, but has 
+several advantages. It needs less computation, can simplified to "zero" 
+(allows sparse activation) and stabilizes training. Nonlinearity can then be 
+introduced by additional layers. A short explanation and an overview of 
+some relevant papers can be found in 
+[Wikipedia](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)).
+
 --->
 ![Fully connected feed-forward network with three layers, for example and 3 neurons in the input  layer, 5 in the hidden layer and 2 in the output.  Deep neural networks have more than one hidden layer.](img/diagrammer-ann.png){#fig-forward-network width=60%}
 
@@ -239,7 +251,7 @@ First we load and plot the data set (@fig-dauta-dataset).
 
 library("dplyr")
 library("ggplot2")
-dauta <- read.csv("dauta4.csv")
+dauta <- read.csv("dauta2.csv")
 ggplot(data=dauta, aes(light, growthrate)) + geom_point() + 
   facet_grid(species ~ temperature)
 ```
@@ -717,4 +729,6 @@ techniques can be explored step by step. The upcoming mlr3 book [@mlr3book]
 covers (or will cover) additional topics like classification problems, resampling 
 and benchmarking, hyperparameter optimization and model interpretation.
 
+
+## References
 
