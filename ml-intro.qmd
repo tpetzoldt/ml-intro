@@ -47,7 +47,26 @@ practical data sets.
 
 ## Methods
 
-### Neural networks
+### How to work with this tutorial
+
+The tutorial and the accompanying data are hosted as github repository. 
+This allows to reproduce the examples in different ways:
+
+1. Read the tutorial online, download the data to a local folder on your PC and 
+copy and paste the code to own scripts in RStudio or another source code editor. 
+The data sets are found at [https://github.com/tpetzoldt/ml-intro/tree/main/data](https://github.com/tpetzoldt/ml-intro/tree/main/data)
+
+2. Read the tutorial online and access the data directly from the internet without downloading. The "Dauta" data set can for example accessed via:
+
+```{r, eval=TRUE, echo=TRUE}
+dauta <- read.csv("https://raw.githubusercontent.com/tpetzoldt/ml-intro/main/data/dauta2.csv")
+```
+
+3. Clone the complete repository to a local folder and work directly with its source code. To do this,
+go to the repository [https://github.com/tpetzoldt/ml-intro/](https://github.com/tpetzoldt/ml-intro/) and use the green `<> Code` button.
+
+
+### Classical neural networks
 
 In the following, let's start with one of the early packages for
 neural networks in **R** [@RCore2022], the package **nnet** from

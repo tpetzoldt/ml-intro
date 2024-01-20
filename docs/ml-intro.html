@@ -5238,8 +5238,9 @@ color: #333333;
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">1</span>  Introduction</a></li>
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="toc-section-number">2</span>  Methods</a>
   <ul class="collapse">
-  <li><a href="#neural-networks" id="toc-neural-networks" class="nav-link" data-scroll-target="#neural-networks"><span class="toc-section-number">2.1</span>  Neural networks</a></li>
-  <li><a href="#a-toy-example" id="toc-a-toy-example" class="nav-link" data-scroll-target="#a-toy-example"><span class="toc-section-number">2.2</span>  A toy example</a></li>
+  <li><a href="#how-to-work-with-this-tutorial" id="toc-how-to-work-with-this-tutorial" class="nav-link" data-scroll-target="#how-to-work-with-this-tutorial"><span class="toc-section-number">2.1</span>  How to work with this tutorial</a></li>
+  <li><a href="#classical-neural-networks" id="toc-classical-neural-networks" class="nav-link" data-scroll-target="#classical-neural-networks"><span class="toc-section-number">2.2</span>  Classical neural networks</a></li>
+  <li><a href="#a-toy-example" id="toc-a-toy-example" class="nav-link" data-scroll-target="#a-toy-example"><span class="toc-section-number">2.3</span>  A toy example</a></li>
   </ul></li>
   <li><a href="#case-study-1-dependence-of-phytoplankton-growth-rate-on-temperature-and-light" id="toc-case-study-1-dependence-of-phytoplankton-growth-rate-on-temperature-and-light" class="nav-link" data-scroll-target="#case-study-1-dependence-of-phytoplankton-growth-rate-on-temperature-and-light"><span class="toc-section-number">3</span>  Case study 1: Dependence of phytoplankton growth rate on temperature and light</a>
   <ul class="collapse">
@@ -5293,8 +5294,22 @@ color: #333333;
 </section>
 <section id="methods" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="methods"><span class="header-section-number">2</span> Methods</h2>
-<section id="neural-networks" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="neural-networks"><span class="header-section-number">2.1</span> Neural networks</h3>
+<section id="how-to-work-with-this-tutorial" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="how-to-work-with-this-tutorial"><span class="header-section-number">2.1</span> How to work with this tutorial</h3>
+<p>The tutorial and the accompanying data are hosted as github repository. This allows to reproduce the examples in different ways:</p>
+<ol type="1">
+<li><p>Read the tutorial online, download the data to a local folder on your PC and copy and paste the code to own scripts in RStudio or another source code editor. The data sets are found at <a href="https://github.com/tpetzoldt/ml-intro/tree/main/data">https://github.com/tpetzoldt/ml-intro/tree/main/data</a></p></li>
+<li><p>Read the tutorial online and access the data directly from the internet without downloading. The “Dauta” data set can for example accessed via:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dauta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/tpetzoldt/ml-intro/main/data/dauta2.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>Clone the complete repository to a local folder and work directly with its source code. To do this, go to the repository <a href="https://github.com/tpetzoldt/ml-intro/">https://github.com/tpetzoldt/ml-intro/</a> and use the green <code>&lt;&gt; Code</code> button.</li>
+</ol>
+</section>
+<section id="classical-neural-networks" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="classical-neural-networks"><span class="header-section-number">2.2</span> Classical neural networks</h3>
 <p>In the following, let’s start with one of the early packages for neural networks in <strong>R</strong> <span class="citation" data-cites="RCore2022">(<a href="#ref-RCore2022" role="doc-biblioref">R Core Team, 2022</a>)</span>, the package <strong>nnet</strong> from <span class="citation" data-cites="Ripley1996">Ripley (<a href="#ref-Ripley1996" role="doc-biblioref">1996</a>)</span> and <span class="citation" data-cites="Venables2002">Venables &amp; Ripley (<a href="#ref-Venables2002" role="doc-biblioref">2002</a>)</span>. Later we can switch to other packages and algorithms.</p>
 <p>The idea behind artificial neural networks (ANNs) is an analogy to biological neural networks. Neural networks consist of many simple and similar building blocks, called neurons (<a href="#fig-neuron">Figure 1</a>) because of their analogies to their biological counterpart.</p>
 <!---
@@ -5303,8 +5318,8 @@ color: #333333;
 ::: {#fig-neuron .cell-output-display}
 
 ```{=html}
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-555a3e0495b05fc78d8e" style="width:100%;height:325px;"></div>
-<script type="application/json" data-for="htmlwidget-555a3e0495b05fc78d8e">{"x":{"diagram":"digraph neuron {\n  rankdir=LR\n  splines=line\n \n  {\n    node [style=solid, shape=circle, label=\"\", width=.5]\n    n\n  }\n  node [shape=none, margin=0.05, width=0.0];\n    x1 x2 x3 y\n  \n  x1 -> n [label=<w<SUB>1<\/SUB>>]\n  x2 -> n [label=<w<SUB>2<\/SUB>>]\n  x3 -> n [label=<w<SUB>3<\/SUB>>]\n  n  -> y [label=<w<SUB>4<\/SUB>>]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3302dd3a063f86da36bf" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-3302dd3a063f86da36bf">{"x":{"diagram":"digraph neuron {\n  rankdir=LR\n  splines=line\n \n  {\n    node [style=solid, shape=circle, label=\"\", width=.5]\n    n\n  }\n  node [shape=none, margin=0.05, width=0.0];\n    x1 x2 x3 y\n  \n  x1 -> n [label=<w<SUB>1<\/SUB>>]\n  x2 -> n [label=<w<SUB>2<\/SUB>>]\n  x3 -> n [label=<w<SUB>3<\/SUB>>]\n  n  -> y [label=<w<SUB>4<\/SUB>>]\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 ```
 
 
@@ -5342,8 +5357,8 @@ f(\mathbf{x}, \mathbf{w}) = \frac{1}{1 + e^{-\sum_{i=1}^n x_i \cdot w_i}}
 ::: {#fig-forward-network .cell-output-display}
 
 ```{=html}
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-af547374ed71d3a6b7dc" style="width:100%;height:325px;"></div>
-<script type="application/json" data-for="htmlwidget-af547374ed71d3a6b7dc">{"x":{"diagram":"digraph ANN {\n  \n  rankdir=LR\n  splines=line\n  \n  node [fixedsize=true, label=\"\"]\n  \n  subgraph cluster_0 {\n    color=white\n    node [style=solid, shape=circle]\n    x1 x2 x3\n    label = \"input layer\"\n  }\n  \n  subgraph cluster_1 {\n    color=white\n    node [style=solid,shape=circle]\n    a12 a22 a32 a42 a52\n    label = \"hidden layer\"\n  }\n  \n  subgraph cluster_2 {\n    color=white\n    node [style=solid, shape=circle]\n    o1 o2\n    label=\"output layer\"\n  }\n  \n  {x1 x2 x3} -> {a12 a22 a32 a42 a52} -> {o1 o2}\n  \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-baaa865940a29732fdbf" style="width:100%;height:325px;"></div>
+<script type="application/json" data-for="htmlwidget-baaa865940a29732fdbf">{"x":{"diagram":"digraph ANN {\n  \n  rankdir=LR\n  splines=line\n  \n  node [fixedsize=true, label=\"\"]\n  \n  subgraph cluster_0 {\n    color=white\n    node [style=solid, shape=circle]\n    x1 x2 x3\n    label = \"input layer\"\n  }\n  \n  subgraph cluster_1 {\n    color=white\n    node [style=solid,shape=circle]\n    a12 a22 a32 a42 a52\n    label = \"hidden layer\"\n  }\n  \n  subgraph cluster_2 {\n    color=white\n    node [style=solid, shape=circle]\n    o1 o2\n    label=\"output layer\"\n  }\n  \n  {x1 x2 x3} -> {a12 a22 a32 a42 a52} -> {o1 o2}\n  \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 ```
 
 
@@ -5361,16 +5376,16 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </figure>
 </div>
 </section>
-<section id="a-toy-example" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="a-toy-example"><span class="header-section-number">2.2</span> A toy example</h3>
+<section id="a-toy-example" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="a-toy-example"><span class="header-section-number">2.3</span> A toy example</h3>
 <p>Let’s assume a simple toy data set with a single variabble <span class="math inline">\(y\)</span> depending on <span class="math inline">\(x\)</span> following an optimum function with some noise (<a href="#fig-toydata">Figure 4</a>). We can see clearly that the ANN with 5 hidden neurons can fit the data well, while one neuron was obviously not enough. But if we look closely, we see also, that the latter ANN shows some sign of overfitting at the beginning.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some test data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">dlnorm</span>(x, <span class="dv">4</span>, .<span class="dv">7</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(x, <span class="at">sd=</span><span class="fl">0.05</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate some test data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">dlnorm</span>(x, <span class="dv">4</span>, .<span class="dv">7</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(x, <span class="at">sd=</span><span class="fl">0.05</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-toydata" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5382,22 +5397,22 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </div>
 <p>Now, we transform the <span class="math inline">\(y\)</span> variable to the interval [0, 1] and fit a neural network with 1 or 5 hidden neurons. The <code>trace</code> argument is set to <code>FALSE</code> to suppress intermediate results in the script. For interactive use, I would recommended to set <code>trace=TRUE</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3142</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform y-data (y must be between 0 and 1)</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> (y <span class="sc">-</span> <span class="fu">min</span>(y))<span class="sc">/</span>(<span class="fu">max</span>(y) <span class="sc">-</span> <span class="fu">min</span>(y))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the transformed data</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the neural net</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>nn1 <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span><span class="dv">1</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>nn2 <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span><span class="dv">5</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>, <span class="at">maxit=</span><span class="dv">500</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">predict</span>(nn1), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">predict</span>(nn2), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3142</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Transform y-data (y must be between 0 and 1)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> (y <span class="sc">-</span> <span class="fu">min</span>(y))<span class="sc">/</span>(<span class="fu">max</span>(y) <span class="sc">-</span> <span class="fu">min</span>(y))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the transformed data</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, y)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the neural net</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>nn1 <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span><span class="dv">1</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>nn2 <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span><span class="dv">5</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>, <span class="at">maxit=</span><span class="dv">500</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">predict</span>(nn1), <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(x, <span class="fu">predict</span>(nn2), <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-fitted-ann" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5417,11 +5432,11 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 <p>The data can also be fitted with parametric models instead of ML techniques. This is explained in another tutorial.</p>
 <p>First we load and plot the data set (<a href="#fig-dauta-dataset">Figure 6</a>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dauta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/dauta2.csv&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dauta, <span class="fu">aes</span>(light, growthrate)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(species <span class="sc">~</span> temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dauta <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/dauta2.csv&quot;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dauta, <span class="fu">aes</span>(light, growthrate)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(species <span class="sc">~</span> temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-dauta-dataset" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5433,39 +5448,39 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </div>
 <p>For a first run, we use only the two species with the best data quality and scale the data to the interval [0, 1]:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dauta <span class="ot">&lt;-</span> <span class="fu">subset</span>(dauta, species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Chlorella&quot;</span>, <span class="st">&quot;Fragilaria&quot;</span>))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ymin  <span class="ot">&lt;-</span> <span class="fu">min</span>(dauta<span class="sc">$</span>growthrate)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ymax  <span class="ot">&lt;-</span> <span class="fu">max</span>(dauta<span class="sc">$</span>growthrate)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y     <span class="ot">&lt;-</span> (dauta<span class="sc">$</span>growthrate <span class="sc">-</span> ymin)<span class="sc">/</span>(ymax <span class="sc">-</span> ymin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dauta <span class="ot">&lt;-</span> <span class="fu">subset</span>(dauta, species <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Chlorella&quot;</span>, <span class="st">&quot;Fragilaria&quot;</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ymin  <span class="ot">&lt;-</span> <span class="fu">min</span>(dauta<span class="sc">$</span>growthrate)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ymax  <span class="ot">&lt;-</span> <span class="fu">max</span>(dauta<span class="sc">$</span>growthrate)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>y     <span class="ot">&lt;-</span> (dauta<span class="sc">$</span>growthrate <span class="sc">-</span> ymin)<span class="sc">/</span>(ymax <span class="sc">-</span> ymin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we encode the species from character to a numeric variable and assign the predictors (species, temperature and light) to a separate variable <code>x</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dauta<span class="sc">$</span>species_i <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(dauta<span class="sc">$</span>species))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dauta[, <span class="fu">c</span>(<span class="st">&quot;species_i&quot;</span>, <span class="st">&quot;temperature&quot;</span>, <span class="st">&quot;light&quot;</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dauta<span class="sc">$</span>species_i <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(dauta<span class="sc">$</span>species))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dauta[, <span class="fu">c</span>(<span class="st">&quot;species_i&quot;</span>, <span class="st">&quot;temperature&quot;</span>, <span class="st">&quot;light&quot;</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="fit-of-a-neural-network" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="fit-of-a-neural-network"><span class="header-section-number">3.2</span> Fit of a neural network</h3>
 <p>Now we can fit a neural network. In the code below, we do this several times in a <code>for</code>-loop and select the best fitting network. This is a quite basic method, but it can lead to overfitting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1423</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hidden <span class="ot">&lt;-</span> <span class="dv">10</span>    <span class="co"># number of hidden neurons</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>maxit  <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># maximum number of iterations per training replicate</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rep    <span class="ot">&lt;-</span> <span class="dv">5</span>     <span class="co"># number of training replicates</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>value <span class="ot">&lt;-</span> <span class="cn">Inf</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>rep) {</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  net <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span>hidden, <span class="at">maxit=</span>maxit, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (net<span class="sc">$</span>value <span class="sc">&lt;</span> value) {</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    n1 <span class="ot">&lt;-</span> net</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    value <span class="ot">&lt;-</span> net<span class="sc">$</span>value</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1423</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>hidden <span class="ot">&lt;-</span> <span class="dv">10</span>    <span class="co"># number of hidden neurons</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>maxit  <span class="ot">&lt;-</span> <span class="dv">1000</span>  <span class="co"># maximum number of iterations per training replicate</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rep    <span class="ot">&lt;-</span> <span class="dv">5</span>     <span class="co"># number of training replicates</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>value <span class="ot">&lt;-</span> <span class="cn">Inf</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>rep) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  net <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span>hidden, <span class="at">maxit=</span>maxit, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (net<span class="sc">$</span>value <span class="sc">&lt;</span> value) {</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    n1 <span class="ot">&lt;-</span> net</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    value <span class="ot">&lt;-</span> net<span class="sc">$</span>value</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we can compare the fitted values with the original data (<a href="#fig-dauta-pred-obs">Figure 7</a>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y, n1<span class="sc">$</span>fitted.values, <span class="at">pch =</span> <span class="st">&quot;+&quot;</span>, </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> dauta<span class="sc">$</span>species_i, <span class="at">xlab =</span> <span class="st">&quot;observed&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;predicted&quot;</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;R^2=&quot;</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fu">var</span>(<span class="fu">residuals</span>(n1))<span class="sc">/</span><span class="fu">var</span>(y), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="co"># coefficient of determination</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y, n1<span class="sc">$</span>fitted.values, <span class="at">pch =</span> <span class="st">&quot;+&quot;</span>, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> dauta<span class="sc">$</span>species_i, <span class="at">xlab =</span> <span class="st">&quot;observed&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;predicted&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;R^2=&quot;</span>, <span class="dv">1</span> <span class="sc">-</span> <span class="fu">var</span>(<span class="fu">residuals</span>(n1))<span class="sc">/</span><span class="fu">var</span>(y), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>) <span class="co"># coefficient of determination</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>R^2= 0.9802464 </code></pre>
 </div>
@@ -5483,18 +5498,18 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 <h3 data-number="3.3" class="anchored" data-anchor-id="visualization"><span class="header-section-number">3.3</span> Visualization</h3>
 <p>There are of course many different ways to visualize the results. First we may compare the model with individual data sets (<a href="#fig-dauta-ann-single">Figure 8</a>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test of neural net with a single data set</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sdat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dauta, species_i <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> temperature <span class="sc">==</span> <span class="dv">25</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## set a series of values for the x axis</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>light  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">700</span>, <span class="dv">5</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>yy   <span class="ot">&lt;-</span> <span class="fu">predict</span>(n1, <span class="fu">data.frame</span>(<span class="at">species_i =</span> <span class="dv">1</span>, <span class="at">temperature =</span> <span class="dv">25</span>, <span class="at">light =</span> light))</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="do">## retransform growth rate from [0, 1] to original scale</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>growthrate   <span class="ot">&lt;-</span> yy <span class="sc">*</span> (ymax <span class="sc">-</span> ymin) <span class="sc">+</span> ymin</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdat<span class="sc">$</span>light, sdat<span class="sc">$</span>growthrate)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(light, growthrate, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test of neural net with a single data set</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sdat <span class="ot">&lt;-</span> <span class="fu">subset</span>(dauta, species_i <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> temperature <span class="sc">==</span> <span class="dv">25</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## set a series of values for the x axis</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>light  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">700</span>, <span class="dv">5</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>yy   <span class="ot">&lt;-</span> <span class="fu">predict</span>(n1, <span class="fu">data.frame</span>(<span class="at">species_i =</span> <span class="dv">1</span>, <span class="at">temperature =</span> <span class="dv">25</span>, <span class="at">light =</span> light))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">## retransform growth rate from [0, 1] to original scale</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>growthrate   <span class="ot">&lt;-</span> yy <span class="sc">*</span> (ymax <span class="sc">-</span> ymin) <span class="sc">+</span> ymin</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sdat<span class="sc">$</span>light, sdat<span class="sc">$</span>growthrate)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(light, growthrate, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-dauta-ann-single" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5506,25 +5521,25 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </div>
 <p>We can also plot the outcome for all species and temperatures together (<a href="#fig-dauta-ann-multi">Figure 9</a>). Here the function <code>expand.grid</code> creates a data frame with all combinations of the explanation variables <code>species_i</code>, <code>light</code> and <code>temperature</code>. This data frame can then be used in <code>predict</code> where the variable names of the new data must exactly match the variable names in the original data set used for fitting the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">species_i =</span> <span class="fu">unique</span>(dauta<span class="sc">$</span>species_i),</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">temperature =</span> <span class="fu">unique</span>(dauta<span class="sc">$</span>temperature),</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">light =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">700</span>, <span class="dv">5</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>yy <span class="ot">&lt;-</span> <span class="fu">predict</span>(n1, newdata)[, <span class="dv">1</span>]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">## retransform predicted values to original scale</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>newdata<span class="sc">$</span>growthrate <span class="ot">&lt;-</span> yy <span class="sc">*</span> (ymax <span class="sc">-</span> ymin) <span class="sc">+</span> ymin</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">## assign species names corresponding to the species number</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">factor</span>(dauta<span class="sc">$</span>species))</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>newdata<span class="sc">$</span>species <span class="ot">&lt;-</span> species[newdata<span class="sc">$</span>species_i]</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dauta, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>light, <span class="at">y=</span>growthrate)) <span class="sc">+</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>newdata, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>light, <span class="at">y=</span>growthrate), <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(species <span class="sc">~</span> temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>newdata <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">species_i =</span> <span class="fu">unique</span>(dauta<span class="sc">$</span>species_i),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">temperature =</span> <span class="fu">unique</span>(dauta<span class="sc">$</span>temperature),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">light =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">700</span>, <span class="dv">5</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>yy <span class="ot">&lt;-</span> <span class="fu">predict</span>(n1, newdata)[, <span class="dv">1</span>]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## retransform predicted values to original scale</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>newdata<span class="sc">$</span>growthrate <span class="ot">&lt;-</span> yy <span class="sc">*</span> (ymax <span class="sc">-</span> ymin) <span class="sc">+</span> ymin</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## assign species names corresponding to the species number</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">factor</span>(dauta<span class="sc">$</span>species))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>newdata<span class="sc">$</span>species <span class="ot">&lt;-</span> species[newdata<span class="sc">$</span>species_i]</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>dauta, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>light, <span class="at">y=</span>growthrate)) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>newdata, <span class="at">mapping=</span><span class="fu">aes</span>(<span class="at">x=</span>light, <span class="at">y=</span>growthrate), <span class="at">color=</span><span class="st">&quot;red&quot;</span>, <span class="at">linewidth=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(species <span class="sc">~</span> temperature)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-dauta-ann-multi" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5657,27 +5672,27 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 <li><p>split the data matrix to separate the target variable <span class="math inline">\(y\)</span> and the explanation variables <span class="math inline">\(x\)</span></p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">## load datas set and convert DATE to date format</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/phytoplankton-cqc.csv&quot;</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>DATE <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dat<span class="sc">$</span>DATE)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: transform dependent variable,</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## because it contains very extreme values</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> dat<span class="sc">$</span>XBE<span class="sc">^</span><span class="fl">0.5</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## rescale dependent variable to interval [0, 1]</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">+</span> dat<span class="sc">$</span>XBE<span class="sc">/</span>(<span class="fl">1.2</span> <span class="sc">*</span> <span class="fu">max</span>(dat<span class="sc">$</span>XBE))</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="do">## split into target and explanation variables</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>select <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DEPTH&quot;</span>, <span class="st">&quot;ZMIX&quot;</span>, <span class="st">&quot;ST&quot;</span>, <span class="st">&quot;TE&quot;</span>, <span class="st">&quot;TH&quot;</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;PO4_PE&quot;</span>, <span class="st">&quot;PO4_PH&quot;</span>, <span class="st">&quot;NO3E&quot;</span>, <span class="st">&quot;NO3H&quot;</span>,</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;SIE&quot;</span>, <span class="st">&quot;SIH&quot;</span>, <span class="st">&quot;O2_SATE&quot;</span>, <span class="st">&quot;O2_SATH&quot;</span>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dat<span class="sc">$</span>XBE</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dat[select]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nnet)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="do">## load datas set and convert DATE to date format</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/phytoplankton-cqc.csv&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>DATE <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dat<span class="sc">$</span>DATE)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="do">## optional: transform dependent variable,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="do">## because it contains very extreme values</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> dat<span class="sc">$</span>XBE<span class="sc">^</span><span class="fl">0.5</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="do">## rescale dependent variable to interval [0, 1]</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">+</span> dat<span class="sc">$</span>XBE<span class="sc">/</span>(<span class="fl">1.2</span> <span class="sc">*</span> <span class="fu">max</span>(dat<span class="sc">$</span>XBE))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="do">## split into target and explanation variables</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>select <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;DEPTH&quot;</span>, <span class="st">&quot;ZMIX&quot;</span>, <span class="st">&quot;ST&quot;</span>, <span class="st">&quot;TE&quot;</span>, <span class="st">&quot;TH&quot;</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;PO4_PE&quot;</span>, <span class="st">&quot;PO4_PH&quot;</span>, <span class="st">&quot;NO3E&quot;</span>, <span class="st">&quot;NO3H&quot;</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;SIE&quot;</span>, <span class="st">&quot;SIH&quot;</span>, <span class="st">&quot;O2_SATE&quot;</span>, <span class="st">&quot;O2_SATH&quot;</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dat<span class="sc">$</span>XBE</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dat[select]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="modell-fitting" class="level4" data-number="4.2.2">
@@ -5685,16 +5700,16 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 <p>Now we can fit a first neural network. Because some networks did not converge with the default settings, some of the learning parameters (<code>decay</code> and <code>maxit</code>) were adapted by trial and error.</p>
 <p>Note also the <code>set.seed()</code> function that starts the random number with a fixed value (the “seed”) to ensure reproducibility of the examples in this document. It is a good idea to play with it in order to see how different the obtained results can be.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>n_wts <span class="ot">&lt;-</span> <span class="dv">15</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size =</span> n_wts, <span class="at">decay =</span> <span class="fl">1e-3</span>, <span class="at">maxit =</span> <span class="dv">500</span>, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>err <span class="ot">&lt;-</span> nn<span class="sc">$</span>value</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn)[,<span class="dv">1</span>]</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>DATE, dat<span class="sc">$</span>XBE, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Phytoplankton (transformed axis)&quot;</span>)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(dat<span class="sc">$</span>DATE, yhat, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>n_wts <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size =</span> n_wts, <span class="at">decay =</span> <span class="fl">1e-3</span>, <span class="at">maxit =</span> <span class="dv">500</span>, <span class="at">trace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>err <span class="ot">&lt;-</span> nn<span class="sc">$</span>value</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn)[,<span class="dv">1</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>DATE, dat<span class="sc">$</span>XBE, <span class="at">xlab=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Phytoplankton (transformed axis)&quot;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(dat<span class="sc">$</span>DATE, yhat, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-fitted-plankton" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5706,8 +5721,8 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </div>
 <p>We can then also compute model quality criteria (cf. <span class="citation" data-cites="Jachner2007">Jachner et al. (<a href="#ref-Jachner2007" role="doc-biblioref">2007</a>)</span>) or plot predicted versus measured (<a href="#fig-measured-fitted-plankton">Figure 11</a>).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>XBE, yhat, <span class="at">xlab=</span><span class="st">&quot;observed&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;predicted&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="st">&quot;dotted&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>XBE, yhat, <span class="at">xlab=</span><span class="st">&quot;observed&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;predicted&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, <span class="at">col=</span><span class="st">&quot;grey&quot;</span>, <span class="at">lty=</span><span class="st">&quot;dotted&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-measured-fitted-plankton" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5719,22 +5734,22 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 </div>
 <p>Sometimes, it makes sense to run more than one trial and then to select the best. Note however that this can result in overfitting. We will learn later, how this can be avoided.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## fit another candidate network nn_try</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  nn_try <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span>n_wts, <span class="at">decay=</span><span class="fl">1e-3</span>, <span class="at">abstol=</span><span class="fl">1e-6</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>, <span class="at">maxit=</span><span class="dv">500</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## and store it if better</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (nn_try<span class="sc">$</span>value <span class="sc">&lt;</span> err) {</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> nn_try<span class="sc">$</span>value</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    nn <span class="ot">&lt;-</span> nn_try</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#cat(err, &quot;\n&quot;)</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn)[,<span class="dv">1</span>]</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>DATE, dat<span class="sc">$</span>XBE, <span class="at">xlim=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylim=</span><span class="st">&quot;Phytoplankton (transformed axis)&quot;</span>)</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(dat<span class="sc">$</span>DATE, yhat, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="do">## fit another candidate network nn_try</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  nn_try <span class="ot">&lt;-</span> <span class="fu">nnet</span>(x, y, <span class="at">size=</span>n_wts, <span class="at">decay=</span><span class="fl">1e-3</span>, <span class="at">abstol=</span><span class="fl">1e-6</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>, <span class="at">maxit=</span><span class="dv">500</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="do">## and store it if better</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (nn_try<span class="sc">$</span>value <span class="sc">&lt;</span> err) {</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    err <span class="ot">&lt;-</span> nn_try<span class="sc">$</span>value</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    nn <span class="ot">&lt;-</span> nn_try</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#cat(err, &quot;\n&quot;)</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(nn)[,<span class="dv">1</span>]</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat<span class="sc">$</span>DATE, dat<span class="sc">$</span>XBE, <span class="at">xlim=</span><span class="st">&quot;Date&quot;</span>, <span class="at">ylim=</span><span class="st">&quot;Phytoplankton (transformed axis)&quot;</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(dat<span class="sc">$</span>DATE, yhat, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can see that the network approximates the original data quite well. But as we used the full data set for training, we cannot check if the network can successfully applied to new, unkown data sets. Therefore, it is common, to split the data set at least into two data sets, where one is used for training and one for model validation.</p>
 <p>Often, the data set is split in three subsets “trainig”, “validation” and “test”, where the first two are used in an automatic procedure to avoid overfitting and the 3rd “test” data set is used for an independent test of the model.</p>
@@ -5758,47 +5773,47 @@ Fully connected feed-forward network with three layers, for example and 3 neuron
 <p>Then we load the data set and may do some data managament. First, we transform the target variable <code>XBM</code> to a reasonable scale as above and prepare 4 separate vectors <code>date</code>, <code>all</code> (all years), <code>train</code> (uneven years) and <code>test</code> (all even years) that we will need later.</p>
 <p>Then we create a task, that contains our data set and names the target variable. To exclude <code>DATE</code> and <code>XBE</code> from the list of explanation variables, we can use <code>select</code>. This is one of the above mentioned object oriented <strong>R6</strong> functions. In effect, the <code>task</code>-object modifies itself without the need of an assignment with <code>&lt;-</code> or <code>=</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3learners&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lubridate&quot;</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/phytoplankton-cqc.csv&quot;</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(dat<span class="sc">$</span>XBE<span class="sc">/</span><span class="fu">max</span>(dat<span class="sc">$</span>XBE))</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dat<span class="sc">$</span>DATE)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>all  <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="co"># uneven years</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) <span class="co"># even years</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>task <span class="ot">&lt;-</span> <span class="fu">as_task_regr</span>(dat, <span class="at">target=</span><span class="st">&quot;XBE&quot;</span>)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="do">## select all columns except DATE and XBE</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>task<span class="sc">$</span><span class="fu">select</span>(<span class="fu">c</span>(<span class="st">&quot;DEPTH&quot;</span>, <span class="st">&quot;ZMIX&quot;</span>, <span class="st">&quot;ST&quot;</span>, <span class="st">&quot;TE&quot;</span>, <span class="st">&quot;TH&quot;</span>, <span class="st">&quot;PO4_PE&quot;</span>, </span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;PO4_PH&quot;</span>, <span class="st">&quot;NO3E&quot;</span>, <span class="st">&quot;NO3H&quot;</span>, <span class="st">&quot;SIE&quot;</span>, <span class="st">&quot;SIH&quot;</span>, <span class="st">&quot;O2_SATE&quot;</span>, <span class="st">&quot;O2_SATH&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3&quot;</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3learners&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;lubridate&quot;</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/phytoplankton-cqc.csv&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>XBE <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(dat<span class="sc">$</span>XBE<span class="sc">/</span><span class="fu">max</span>(dat<span class="sc">$</span>XBE))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dat<span class="sc">$</span>DATE)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>all  <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="co"># uneven years</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">year</span>(date) <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) <span class="co"># even years</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>task <span class="ot">&lt;-</span> <span class="fu">as_task_regr</span>(dat, <span class="at">target=</span><span class="st">&quot;XBE&quot;</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="do">## select all columns except DATE and XBE</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>task<span class="sc">$</span><span class="fu">select</span>(<span class="fu">c</span>(<span class="st">&quot;DEPTH&quot;</span>, <span class="st">&quot;ZMIX&quot;</span>, <span class="st">&quot;ST&quot;</span>, <span class="st">&quot;TE&quot;</span>, <span class="st">&quot;TH&quot;</span>, <span class="st">&quot;PO4_PE&quot;</span>, </span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;PO4_PH&quot;</span>, <span class="st">&quot;NO3E&quot;</span>, <span class="st">&quot;NO3H&quot;</span>, <span class="st">&quot;SIE&quot;</span>, <span class="st">&quot;SIH&quot;</span>, <span class="st">&quot;O2_SATE&quot;</span>, <span class="st">&quot;O2_SATH&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can select a learner out of a huge number of available ML algorithms. The list of available learners can be shown with.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mlr_learners</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mlr_learners</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The list can be even bigger, depending on which packages were actually loaded. The learner <code>regr.nnet</code> is the one from the package <strong>nnet</strong> that we have used for the experiments above. For our first experiment with <strong>mlr3</strong>, let’s use random forest algorithm <span class="citation" data-cites="Breiman2001">(<a href="#ref-Breiman2001" role="doc-biblioref">Breiman, 2001</a>)</span>, a very powerful and robust ML algorithm, with a fast implementation in the package <strong>ranger</strong> <span class="citation" data-cites="Wright2017">(<a href="#ref-Wright2017" role="doc-biblioref">Wright &amp; Ziegler, 2017</a>)</span>.</p>
 <p>If not yet done, install the package <strong>ranger</strong> first:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ranger&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;ranger&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we set up a learner. Here it is possible to provide additional options, like in the <code>nnet</code> examples above. The line is shown below and can be uncommented if you want. The random forest learner is more robust and works with the default settings.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>learner <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.ranger&quot;</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#learner = lrn(&quot;regr.nnet&quot;, maxit=1500, decay=1e-3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>learner <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.ranger&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#learner = lrn(&quot;regr.nnet&quot;, maxit=1500, decay=1e-3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now comes the essential step to train the learner. In contrast to the <code>nnet</code> example above we use only the training data subset and compare it later to the test data set, not used for training. You may wonder that the function returns very quickly. It does indeed highly CPU intensive computations, but the data set is small, our computers are fast and the “ranger” package is very efficient. We set a random seed to be able to reproduce the outcome at a later time.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>learner<span class="sc">$</span><span class="fu">train</span>(task, <span class="at">row_ids =</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>learner<span class="sc">$</span><span class="fu">train</span>(task, <span class="at">row_ids =</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can evaluate the results numerically:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(learner<span class="sc">$</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(learner<span class="sc">$</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Ranger result
 
@@ -5819,13 +5834,13 @@ R squared (OOB):                  0.3383215 </code></pre>
 </div>
 <p>The values of RMSE and R squared can be misleading, because they compare only with the training data. To get them for the test data, we first do a prediction for the test data subset and then compute the scores. Function <code>msr</code> defines a measure. The full dictionary of measures is available via:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mlr_measures</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mlr_measures</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> learner<span class="sc">$</span><span class="fu">predict</span>(task, <span class="at">row_ids =</span> test)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pred<span class="sc">$</span><span class="fu">score</span>(<span class="fu">list</span>(<span class="fu">msr</span>(<span class="st">&quot;regr.mse&quot;</span>),  </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">msr</span>(<span class="st">&quot;regr.rmse&quot;</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">msr</span>(<span class="st">&quot;regr.rsq&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> learner<span class="sc">$</span><span class="fu">predict</span>(task, <span class="at">row_ids =</span> test)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>pred<span class="sc">$</span><span class="fu">score</span>(<span class="fu">list</span>(<span class="fu">msr</span>(<span class="st">&quot;regr.mse&quot;</span>),  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                <span class="fu">msr</span>(<span class="st">&quot;regr.rmse&quot;</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">msr</span>(<span class="st">&quot;regr.rsq&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   regr.mse   regr.rmse    regr.rsq 
 0.002552549 0.050522761 0.150215184 </code></pre>
@@ -5834,13 +5849,13 @@ R squared (OOB):                  0.3383215 </code></pre>
 <p>The value of <span class="math inline">\(r^2\)</span> may be considered surprisingly small, so let’s look at it graphically (<a href="#fig-mlr-plankton">Figure 12</a>).</p>
 <p>To plot the results, we can make a prediction for all data, and then separately for the training (green) and the test data (red).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_all <span class="ot">&lt;-</span> learner<span class="sc">$</span><span class="fu">predict</span>(task, <span class="at">row_ids =</span> all)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(date, pred_all<span class="sc">$</span>truth, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">&quot;navy&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;sqrt(XBM/max(XBM)&quot;</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date, pred_all<span class="sc">$</span>response)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date[test], pred_all<span class="sc">$</span>response[test], <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date[train], pred_all<span class="sc">$</span>response[train], <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pred_all <span class="ot">&lt;-</span> learner<span class="sc">$</span><span class="fu">predict</span>(task, <span class="at">row_ids =</span> all)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(date, pred_all<span class="sc">$</span>truth, <span class="at">pch=</span><span class="dv">16</span>, <span class="at">cex=</span><span class="fl">0.7</span>, </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="st">&quot;navy&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;sqrt(XBM/max(XBM)&quot;</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date, pred_all<span class="sc">$</span>response)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date[test], pred_all<span class="sc">$</span>response[test], <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(date[train], pred_all<span class="sc">$</span>response[train], <span class="at">type=</span><span class="st">&quot;h&quot;</span>, <span class="at">col=</span><span class="st">&quot;green&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-mlr-plankton" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -5856,12 +5871,12 @@ R squared (OOB):                  0.3383215 </code></pre>
 <h4 data-number="4.3.2" class="anchored" data-anchor-id="variable-importance"><span class="header-section-number">4.3.2</span> Variable importance</h4>
 <p>Originally, we put all variables in that we had, but an important question of ML is, which of the predictor variables have the best predictive power and are really needed. This problem is called “variable importance” or “feature importance” and then “feature selection”, that is available in package <strong>mlr3filters</strong>. Random forest has a nice property, to have feature importance embedded.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3filters&quot;</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>learner <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.ranger&quot;</span>, <span class="at">importance=</span><span class="st">&quot;impurity&quot;</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="fu">flt</span>(<span class="st">&quot;importance&quot;</span>, <span class="at">learner =</span> learner)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>filter<span class="sc">$</span><span class="fu">calculate</span>(task)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.table</span>(filter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;mlr3filters&quot;</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>learner <span class="ot">=</span> <span class="fu">lrn</span>(<span class="st">&quot;regr.ranger&quot;</span>, <span class="at">importance=</span><span class="st">&quot;impurity&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>filter <span class="ot">&lt;-</span> <span class="fu">flt</span>(<span class="st">&quot;importance&quot;</span>, <span class="at">learner =</span> learner)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>filter<span class="sc">$</span><span class="fu">calculate</span>(task)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.table</span>(filter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    feature      score
  1: O2_SATE 0.40940171
