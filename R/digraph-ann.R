@@ -1,3 +1,7 @@
+## create a graph with a single neuron
+## tpetzoldt, 2023
+## public domain, CC-0
+
 library(DiagrammeR)
 
 
@@ -64,7 +68,8 @@ grViz("digraph neuron {
   node [shape=none, margin=0.05, width=0.0];
     x1 x2 x3 y;
 
-  x1 -> n [label=<w<SUB>1,1</SUB>>]
+  x1 -> n [label='w1']
+  # x1 -> n [label=<w<SUB>1</SUB>>] # index as subscript
   x2 -> n [label='w2']
   x3 -> n [label='w3']
   n  -> y [label='w4']
