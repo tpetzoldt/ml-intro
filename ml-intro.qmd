@@ -1,5 +1,5 @@
 ---
-title: "Basic Machine Learning with R: Some Limnological Toy Examples"
+title: "Basic Machine Learning with R with Toy Examples from Aquatic Ecology"
 author: "Thomas Petzoldt"
 format:
   html:
@@ -130,7 +130,7 @@ plot(x, sigmoid(x/5), type="l")
 plot(x, sigmoid(-x/5), type="l")
 ```
 
-<!---
+<!--
 ```{r, echo=FALSE, fig.height=3.5}
 #| label: fig-forward-network
 #| fig-cap: "Fully connected feed-forward network with three layers, for example
@@ -169,6 +169,7 @@ grViz("digraph ANN {
   
 }")
 ```
+-->
 
 **Note**: In contrast to the classical sigmoidal function, modern deep neural 
 network frameworks like [Keras](https://keras.io/) prefer other transfer functions, 
@@ -180,7 +181,7 @@ introduced by additional layers. A short explanation and an overview of
 some relevant papers can be found in 
 [Wikipedia](https://en.wikipedia.org/wiki/Rectifier_(neural_networks)).
 
---->
+
 ![Fully connected feed-forward network with three layers, for example and 3 neurons in the input  layer, 5 in the hidden layer and 2 in the output.  Deep neural networks have more than one hidden layer.](img/diagrammer-ann.png){#fig-forward-network width=60%}
 
 
@@ -251,7 +252,7 @@ First we load and plot the data set (@fig-dauta-dataset).
 
 library("dplyr")
 library("ggplot2")
-dauta <- read.csv("dauta2.csv")
+dauta <- read.csv("data/dauta2.csv")
 ggplot(data=dauta, aes(light, growthrate)) + geom_point() + 
   facet_grid(species ~ temperature)
 ```
@@ -399,7 +400,7 @@ necessary because the standard learning algorithm requires this.
 ```{r, echo=FALSE}
 #| label: tbl-variables
 #| tbl-cap: Variables in the plankton data set.
-vars <- read.csv("variables.csv")
+vars <- read.csv("data/variables.csv")
 knitr::kable(vars)
 ```
 
@@ -427,7 +428,7 @@ We start with some data management:
 library(nnet)
 
 ## load datas set and convert DATE to date format
-dat <- read.csv("phytoplankton-cqc.csv")
+dat <- read.csv("data/phytoplankton-cqc.csv")
 dat$DATE <- as.Date(dat$DATE)
 
 ## optional: transform dependent variable,
@@ -542,8 +543,8 @@ These packages differ again with respect to the included features, syntax and
 philosophy, so it can again be difficult where to start.
 
 One of the most popular packages in **R** is still the **caret** (Classification 
-and Regression Training) package (@caret). However in the following, let's explore 
-some possibilities of the **mlr3** package (@mlr3). This has surely a personal 
+and Regression Training) package [@caret]. However in the following, let's explore 
+some possibilities of the **mlr3** package [@mlr3]. This has surely a personal 
 component, because I had the chance to meet the authors in an enthusiastic workshop,
 and after exploring the features of **mlr3** once again, I think it is a good decision 
 due to its vast flexibility.
@@ -575,7 +576,7 @@ library("mlr3")
 library("mlr3learners")
 library("lubridate")
 
-dat <- read.csv("phytoplankton-cqc.csv")
+dat <- read.csv("data/phytoplankton-cqc.csv")
 dat$XBE <- sqrt(dat$XBE/max(dat$XBE))
 
 date <- as.Date(dat$DATE)
@@ -600,7 +601,7 @@ mlr_learners
 
 The list can be even bigger, depending on which packages were actually loaded. The learner 
 `regr.nnet` is the one from the package **nnet** that we have used for the experiments above.
-For our first experiment with **mlr3**, let's use random forest algorithm (@Breiman2001), 
+For our first experiment with **mlr3**, let's use random forest algorithm [@Breiman2001], 
 a very powerful and robust ML algorithm, with a fast implementation in the 
 package **ranger** [@Wright2017]. 
 
