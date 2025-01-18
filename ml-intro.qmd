@@ -42,7 +42,12 @@ concentrate exclusively on supervised regression problems. Examples for other
 problems can be found in textbooks like @Lantz2019 or @Rhys2020 and in many 
 online resources.
 
-We start with a technical example and then apply the methodology to a
+In our research we are working with additional methods like Gradient Boosting 
+[@Friedman2001gbm] and Keras [@Chollet2015keras], but had not time yet to document 
+didactical examples here. Additional references are found in the "Further Reading" 
+section.
+
+We start with a technical example and then apply the methodology to
 practical data sets.
 
 ## Methods
@@ -749,6 +754,13 @@ techniques can be explored step by step. The upcoming mlr3 book [@mlr3book]
 covers (or will cover) additional topics like classification problems, resampling 
 and benchmarking, hyperparameter optimization and model interpretation.
 
+## Further reading
+
+* Hands-On Machine Learning with R [@Boehmke2019]
+* An introduction to statistical learning with applications in R [@James2021]
+* Deep learning with R [@Chollet2022]
+* Feature Engineering A-Z [@Hvitfeldt2024]
+* TensorFlow for R [@tensorflow_tutorials]
 
 ## References
 
