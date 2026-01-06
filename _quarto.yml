@@ -3,4 +3,6 @@ project:
   output-dir: docs
   render: 
     - "*.qmd"
+  post-render:
+    - Rscript -e "quarto::qmd_to_r_script('ml-intro.qmd', script = 'R/ml-intro.R')"
  
