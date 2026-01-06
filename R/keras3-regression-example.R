@@ -26,12 +26,12 @@ x_test_scaled <- (x_test - x_train_mean) / x_train_sd
 
 ## build a Keras model
 model <- keras_model_sequential(input_shape = c(1), input_dtype = "float64") |>
-  layer_dense(units = 4, activation = "linear") |>  # Input layer
+  layer_dense(units = 12, activation = "swish") |>  # Input layer
   #layer_dropout(0.2) |>
-  layer_dense(units = 8, activation = "tanh") |>  # Hidden layer
+  layer_dense(units = 8, activation = "swish") |>   # Hidden layer
   #layer_dropout(0.2) |>
   #layer_dense(units = 16, activation = "relu") |>  # Hidden layer
-  layer_dense(units = 1)                           # Output layer
+  layer_dense(units = 1)                            # Output layer
 
 ## compile the model
 model |> compile(
@@ -46,8 +46,8 @@ model |> compile(
 ## train the model
 history <- model |> fit(
   x_train_scaled, y_train,
-  epochs = 1000,          # adjust as needed
-  batch_size = 32,        # adjust as needed
+  epochs = 50,          # adjust as needed
+  batch_size = 16,        # adjust as needed
   validation_split = 0.2, # 20% of training data for validation
   ## early stopping if model converged
   callbacks = list(
