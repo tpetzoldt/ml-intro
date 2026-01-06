@@ -109,9 +109,9 @@ grViz("digraph neuron {
 
 A neuron has several inputs $x_i$ with individual weighting factors
 $w_i$. The weighted inputs are then combined with a weighted sum
-and then passed on to the output $y$ via a transfer function.
+and then passed on to the output $y$ via a transfer (or activation) function.
 
-The transfer function can have different structure, where in the classical case,
+The activation function can have different structure, where in the classical case,
 a sigmoidal function was one of the most common:
 
 $$
@@ -128,7 +128,7 @@ different topologies, e.g. a three layer feed-forward network
 
 ```{r, echo=FALSE,fig.height=8, fig.width=8}
 #| label: fig-sigmoid
-#| fig-cap: "Flexibility of a sigmoidal transfer function. A single neuron can 
+#| fig-cap: "Flexibility of a sigmoidal activation function. A single neuron can 
 #| exhibit increasing and decreasing sigmoidal pattern, step functions, near-exponential 
 #| increase and decrease, saturation or linear shapes."
 
@@ -196,7 +196,7 @@ grViz("digraph ANN {
 -->
 
 **Note**: In contrast to the classical sigmoidal function, modern deep neural 
-network frameworks like [Keras](https://keras.io/) prefer other transfer functions, 
+network frameworks like [Keras](https://keras.io/) prefer other activation functions, 
 e.g. a linear ramp function (ReLU, rectified linear unit). 
 The ReLU is linear and surprisingly much simpler than the sigmoidal, but has 
 several advantages. It needs less computation, can be simplified to "zero" 
@@ -416,7 +416,12 @@ For the simulation experiments, measured data of the Saidenbach dam
 were used (cf. @Horn2006). As the data were not always exactly
 equidistant, an interpolation was carried out with cubic splines to an
 interval of 14d, with subsequent manual post-correction to avoid
-wiggles.
+wiggles. This is ok for **pattern recognistion**. However, for **forecasting**, 
+one must strictly avoid "non-causal" interpolation  (like splines or standard 
+linear interpolation) on both target and predictor variables.
+These methods "leak" information from the future into the past, leading to
+artificially optimistic results. For such cases, causal methods or 
+forward-filling are preferred. 
 
 The variables shown in the table, except Date and XBM were used as
 inputs for a neural network, while phytoplankton biomass (XBM) in the

@@ -52,7 +52,7 @@ grViz("digraph neuron {
 }")
 
 #| label: fig-sigmoid
-#| fig-cap: Flexibility of a sigmoidal transfer function. A single neuron can  exhibit
+#| fig-cap: Flexibility of a sigmoidal activation function. A single neuron can  exhibit
 #|   increasing and decreasing sigmoidal pattern, step functions, near-exponential  increase
 #|   and decrease, saturation or linear shapes.
 
